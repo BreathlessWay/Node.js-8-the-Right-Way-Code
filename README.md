@@ -2,7 +2,7 @@
 
 部分内容代码和每章小结与练习的代码
 
-==handlebars直接import会报错，需要在webpack中配置alias==
+**handlebars直接import会报错，需要在webpack中配置alias**
 ```
 resolve: {
     alias: {
