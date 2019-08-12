@@ -37,3 +37,7 @@ resolve: {
 > chmod相关
 
 1. chmod +x [file]: 赋予文件执行权限
+
+> webpack-dev-server
+
+1. 当使用host转发域名请求到localhost/127.0.0.1时, 报错 `Invalid Host header`, 需要修改webpack-dev-server的设置, 添加 `{disableHostCheck: true}`
