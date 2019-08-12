@@ -5,5 +5,11 @@
     "port": 9200,
     "books_index": "books",
     "bundles_index": "b4"
+  },
+  "auth": {
+    "github": {
+      "clientID": "f88031217947ba679dd7",
+      "clientSecret": "270654acbbca11261e4ebaac275aceba618ed70b"
+    }
   }
 }

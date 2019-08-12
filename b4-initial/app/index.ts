@@ -1,17 +1,23 @@
 import 'bootstrap';
-import '~/bootstrap-social/bootstrap-social.css'
-import '~/font-awesome/css/font-awesome.min.css'
+import '~/bootstrap-social/bootstrap-social.css';
+import '~/font-awesome/css/font-awesome.min.css';
 import '~/bootstrap/dist/css/bootstrap.min.css';
 
 import {main, welcome, alert, list, add, detail} from './templates';
 
-document.body.innerHTML = main('');
-
-const oMainElement = document.querySelector('.b4-main');
-
-const oAlertsElement = document.querySelector('.b4-alerts');
+const fetchJSON = async (url, method = 'GET') => {
+	try {
+		// credentials确保cookie与请求一起发送，默认情况下fetch是不发送cookie的
+		const response = await fetch(url, {method, credentials: 'same-origin'});
+		return response.json();
+	} catch (error) {
+		return {error};
+	}
+};
 
 const showAlert = (message, type = 'danger') => {
+	const oAlertsElement = document.querySelector('.b4-alerts');
+
 	const html = alert({
 		type,
 		message
@@ -75,6 +81,8 @@ const deleteBundle = async (bundleId) => {
 };
 
 const listBundles = bundles => {
+	const oMainElement = document.querySelector('.b4-main');
+
 	oMainElement.innerHTML = add('') + list({bundles});
 
 	const oForm = document.querySelector('form');
@@ -96,6 +104,7 @@ const listBundles = bundles => {
 
 const detailBundle = async (bundleId) => {
 	try {
+		const oMainElement = document.querySelector('.b4-main');
 
 		const res = await fetch(`/api/bundle/${bundleId}`);
 		const resBody = await res.json();
@@ -112,11 +121,17 @@ const detailBundle = async (bundleId) => {
 };
 
 const showView = async () => {
+	const oMainElement = document.querySelector('.b4-main');
+
 	const [view, ...params] = window.location.hash.split('/');
 
 	switch (view) {
 		case '#welcome': {
-			oMainElement.innerHTML = welcome('');
+			const session = await fetchJSON('/api/session');
+			oMainElement.innerHTML = welcome({session});
+			if (session.error) {
+				showAlert(session.error);
+			}
 			break;
 		}
 		case '#list-bundles': {
@@ -133,7 +148,15 @@ const showView = async () => {
 	}
 };
 
-window.addEventListener('hashchange', showView);
+(async () => {
 
-showView()
-	.catch(() => window.location.hash = '#welcome');
+	const session = await fetchJSON('/api/session');
+
+	document.body.innerHTML = main({session});
+
+	window.addEventListener('hashchange', showView);
+
+	showView()
+		.catch(() => window.location.hash = '#welcome');
+
+})();

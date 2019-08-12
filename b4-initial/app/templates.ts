@@ -37,17 +37,21 @@ export const welcome = compile(`
 		{{else}}
 		<div class="row">
 			<div class="col-sm-6">
-				<a href="/auth/facebook" class="btn btn-block btn-social btn-facebook">
-					Sign in with Facebook
-					<span class="fa fa-facebook"></span>
-				</a>
-				<a href="/auth/twitter" class="btn btn-block btn-social btn-twitter">
-					Sign in with Twitter
-					<span class="fa fa-twitter"></span>
-				</a>
-				<a href="/auth/google" class="btn btn-block btn-social btn-google">
-					Sign in with Google
-					<span class="fa fa-google"></span>
+<!--				<a href="/auth/facebook" class="btn btn-block btn-social btn-facebook">-->
+<!--					Sign in with Facebook-->
+<!--					<span class="fa fa-facebook"></span>-->
+<!--				</a>-->
+<!--				<a href="/auth/twitter" class="btn btn-block btn-social btn-twitter">-->
+<!--					Sign in with Twitter-->
+<!--					<span class="fa fa-twitter"></span>-->
+<!--				</a>-->
+<!--				<a href="/auth/google" class="btn btn-block btn-social btn-google">-->
+<!--					Sign in with Google-->
+<!--					<span class="fa fa-google"></span>-->
+<!--				</a>-->
+				<a href="/auth/github" class="btn btn-block btn-social btn-github">
+					Sign in with GitHub
+					<span class="fa fa-github"></span>
 				</a>
 			</div>
 		</div>
