@@ -9,7 +9,9 @@
     "test:debug": "node --inspect node_modules/.bin/_mocha --watch --no-timeouts",
     "start:service": "nodemon ./web-serveices/b4/server.js",
     "dev": "NODE_ENV=development webpack-dev-server --config ./b4-app/config/webpack.config.js",
-    "start:app": "nodemon --ignore './sessions' ./b4-initial/server.js"
+    "start:app": "nodemon --ignore ./sessions ./b4-initial/server.js",
+    "build": "NODE_ENV=production webpack --config ./b4-initial/config/webpack.config.js ",
+    "start:prod": "NODE_ENV=production nodemon --ignore ./sessions ./b4-initial/server.js"
   },
   "keywords": [],
   "author": "",
@@ -38,6 +40,7 @@
     "bootstrap-social": "5.1.1",
     "cheerio": "1.0.0-rc.3",
     "commander": "2.20.0",
+    "connect-redis": "3.4.2",
     "express": "4.17.1",
     "express-session": "1.16.2",
     "font-awesome": "4.7.0",

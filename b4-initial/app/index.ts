@@ -27,15 +27,12 @@ const showAlert = (message, type = 'danger') => {
 };
 
 const getBundles = async () => {
-	const esRes = await fetch('/es/b4/bundle/_search?size=1000');
-	const esResBody = await esRes.json();
+	const bundles = await fetchJSON('/api/list-bundles');
 
-	return esResBody.hits.hits.map(hit => {
-		return {
-			id: hit._id,
-			name: hit._source.name
-		};
-	});
+	if (bundles.error) {
+		throw bundles.error;
+	}
+	return bundles;
 };
 
 const addBundle = async (name) => {
@@ -44,10 +41,11 @@ const addBundle = async (name) => {
 		const bundles = await getBundles();
 
 		const url = `/api/bundle?name=${encodeURIComponent(name)}`;
-		const res = await fetch(url, {method: 'POST'});
-		const resBody = await res.json();
-
-		bundles.push({id: resBody._id, name});
+		const bundle = await fetchJSON(url, 'POST');
+		if (bundle.error) {
+			throw bundles.error;
+		}
+		bundles.push({id: bundle._id, name});
 		listBundles(bundles);
 
 		showAlert(`Bundle "${name}" created!`, 'success');
@@ -68,7 +66,7 @@ const deleteBundle = async (bundleId) => {
 			throw Error(`Bundle Not Found`);
 		}
 
-		await fetch(`/api/bundle/${bundleId}`, {method: 'DELETE'});
+		await fetchJSON(`/api/bundle/${bundleId}`, 'DELETE');
 
 		bundles.splice(idx, 1);
 
@@ -106,10 +104,12 @@ const detailBundle = async (bundleId) => {
 	try {
 		const oMainElement = document.querySelector('.b4-main');
 
-		const res = await fetch(`/api/bundle/${bundleId}`);
-		const resBody = await res.json();
+		const bundle = await fetchJSON(`/api/bundle/${bundleId}`);
+		if (bundle.error) {
+			throw bundle.error;
+		}
 		oMainElement.innerHTML = detail({
-			name: resBody._source.name
+			name: bundle.bundle.name
 		});
 
 		showAlert('Bundle found', 'success');
@@ -127,10 +127,12 @@ const showView = async () => {
 
 	switch (view) {
 		case '#welcome': {
-			const session = await fetchJSON('/api/session');
-			oMainElement.innerHTML = welcome({session});
-			if (session.error) {
-				showAlert(session.error);
+			try {
+				const session = await fetchJSON('/api/session');
+				oMainElement.innerHTML = welcome({session});
+			} catch (error) {
+				showAlert(error);
+				window.location.hash = '#welcome';
 			}
 			break;
 		}

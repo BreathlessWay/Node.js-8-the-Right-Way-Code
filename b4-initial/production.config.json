@@ -9,5 +9,10 @@
       "clientID": "f88031217947ba679dd7",
       "clientSecret": "270654acbbca11261e4ebaac275aceba618ed70b"
     }
+  },
+  "redis": {
+    "host": "localhost",
+    "port": 6379,
+    "secret": "redis"
   }
 }

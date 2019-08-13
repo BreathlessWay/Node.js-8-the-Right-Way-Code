@@ -50,7 +50,19 @@ if (isDev) {
 	}));
 
 } else {
+	const RedisStore = require('connect-redis')(expressSession);
 	app.use(express.static('dist'));
+	app.use(expressSession({
+		resave: false,
+		// 生产模式下不储存未初始化的会话
+		saveUninitialized: false,
+		secret: nconf.get('redis:secret'),
+		store: new RedisStore({
+			host: nconf.get('redis:host'),
+			port: nconf.get('redis:port')
+		})
+	}));
+
 }
 
 passport.serializeUser((profile, done) => {
@@ -96,5 +108,7 @@ app.get('/auth/signout', (req, res) => {
 app.get('/api/version', (req, res) => {
 	res.status(200).json(pkg.version);
 });
+
+app.use('/api', require('./lib/bundle')(nconf.get('es:bundles_index')));
 
 app.listen(servicePort, () => console.log('Ready'));
