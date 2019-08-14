@@ -11,7 +11,8 @@
     "dev": "NODE_ENV=development webpack-dev-server --config ./b4-app/config/webpack.config.js",
     "start:app": "nodemon --ignore ./sessions ./b4-initial/server.js",
     "build": "NODE_ENV=production webpack --config ./b4-initial/config/webpack.config.js ",
-    "start:prod": "NODE_ENV=production nodemon --ignore ./sessions ./b4-initial/server.js"
+    "start:prod": "NODE_ENV=production nodemon --ignore ./sessions ./b4-initial/server.js",
+    "start:red": "node-red -v -u ./nodered/config -f ./nodered/config/flows.json"
   },
   "keywords": [],
   "author": "",
@@ -33,8 +34,8 @@
     "url-loader": "2.1.0",
     "webpack": "4.39.1",
     "webpack-cli": "3.3.6",
-    "webpack-dev-server": "3.7.2",
-    "webpack-dev-middleware": "latest"
+    "webpack-dev-middleware": "3.7.0",
+    "webpack-dev-server": "3.7.2"
   },
   "dependencies": {
     "bootstrap-social": "5.1.1",
@@ -47,6 +48,7 @@
     "morgan": "1.9.1",
     "nconf": "0.10.0",
     "node-dir": "0.1.17",
+    "node-red": "0.20.7",
     "nodemon": "1.19.1",
     "passport": "0.4.0",
     "passport-github": "1.1.0",
